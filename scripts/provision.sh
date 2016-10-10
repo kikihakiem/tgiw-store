@@ -6,3 +6,5 @@ cd ../ansible && \
   ansible-playbook webserver.yml -i inventories/webservers -vvvvv && \
   ansible-playbook dbserver.yml -i inventories/webservers -vvvvv && \
   ansible-playbook app.yml -i inventories/webservers -vvvvv
+
+service mysql start
