@@ -7,7 +7,7 @@ dev-build:
 
 # provision docker container
 dev-provision:
-	docker run -v $(PWD):/tgiw-store -it tgiw-store:latest ./provision.sh
+	docker run -v $(PWD):/tgiw-store -it tgiw-store:latest ./scripts/provision.sh
 
 # save docker container
 dev-save:
@@ -16,7 +16,7 @@ dev-save:
 
 # create a new docker container
 dev-new:
-	docker run --name tgiw-store -v $(PWD):/tgiw-store -p 3000:3000 -p 8306:3306 -it tgiw-store:latest /bin/bash
+	docker run --name tgiw-store -v $(PWD):/tgiw-store -p 8080:3000 -p 8306:3306 -it tgiw-store:latest ./scripts/start.sh
 
 # start existing docker container
 dev-run:
@@ -28,7 +28,7 @@ provision:
 
 # for deploying to production
 deploy:
-	docker exec $(CONTAINER) ./deploy.sh
+	docker exec $(CONTAINER) ./scripts/deploy.sh
 
 .PHONY: no_targets__ list
 no_targets__:

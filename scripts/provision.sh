@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # cd ansible && ansible-playbook -i production provision.yml
-cd ansible && \
+cd ../ansible && \
   ansible-playbook user.yml -i inventories/webservers -vvvvv && \
   ansible-playbook webserver.yml -i inventories/webservers -vvvvv && \
   ansible-playbook dbserver.yml -i inventories/webservers -vvvvv && \
