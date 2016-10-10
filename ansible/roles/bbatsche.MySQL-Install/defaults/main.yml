@@ -1,0 +1,5 @@
+---
+db_admin: vagrant
+db_pass:  vagrant
+
+env_name: dev

@@ -16,7 +16,7 @@ dev-save:
 
 # create a new docker container
 dev-new:
-	docker run --name tgiw-store -v $(PWD):/tgiw-store -p 3000:3000 -p 3306:3306 -it tgiw-store:latest
+	docker run --name tgiw-store -v $(PWD):/tgiw-store -p 3000:3000 -p 8306:3306 -it tgiw-store:latest /bin/bash
 
 # start existing docker container
 dev-run:

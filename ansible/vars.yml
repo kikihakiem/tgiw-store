@@ -1,0 +1,13 @@
+---
+app_name: tgiw-store
+app_env: "{{ lookup('env','TGIW_ENV') }}"
+# created with:
+# python -c 'import crypt; print crypt.crypt("<PASS>", "SomeSaltedValue")'
+password: "{{ lookup('env','TGIW_PASSWD') }}"
+mysql_root_password: "{{ lookup('env','TGIW_MYSQL_ROOT_PASSWD') }}"
+home_dir: "/home/deploy"
+repo: "/tgiw-store"
+
+project_ruby: 2.3.1
+ruby_url: "ftp://ftp.ruby-lang.org//pub/ruby/2.3/ruby-{{ project_ruby }}.tar.gz"
+ruby_dir: "/home/deploy/ruby/"

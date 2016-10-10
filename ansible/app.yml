@@ -1,0 +1,20 @@
+- hosts: webservers
+  user: deploy
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Make directory for database.yml
+      shell: mkdir -p {{home_dir}}/{{app_name}}/shared/config
+
+    - name: Copy database.yml
+      action: template src=templates/database.yml dest={{home_dir}}/{{app_name}}/shared/config/database.yml
+
+    - name: Create the database
+      mysql_db: name={{app_name}}_{{app_env}} state=present login_user=deploy login_password={{mysql_root_password}}
+
+    - name: Make directory assets
+      shell: "mkdir -p {{home_dir}}/{{app_name}}/shared/assets"
+
+    - name: Create dummy file for Rails (assets will appear magically)
+      shell: "touch {{home_dir}}/{{app_name}}/shared/assets/manifest.yml"
