@@ -3,15 +3,6 @@
   vars_files:
     - vars.yml
 
-  pre_tasks:
-    - name: Install libraries
-      apt: name={{ item }} state=present
-      with_items:
-        - libxslt-dev
-        - libxml2-dev 
-        - libmysqlclient-dev
-        - imagemagick
-
   tasks:
     - name: Make directory for database.yml
       shell: mkdir -p {{home_dir}}/{{app_name}}/shared/config

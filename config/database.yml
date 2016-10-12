@@ -13,9 +13,9 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: deploy
-  password: <%= ENV['TGIW_MYSQL_ROOT_PASSWD'] %>
-  socket: /var/run/mysqld/mysqld.sock
+  username: root
+  password:
+  socket: /tmp/mysql.sock
 
 development:
   <<: *default
@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: tgiw-store_production
-  username: deploy
-  password: <%= ENV['TGIW_MYSQL_ROOT_PASSWD'] %>
+  username: tgiw-store
+  password: <%= ENV['TGIW-STORE_DATABASE_PASSWORD'] %>

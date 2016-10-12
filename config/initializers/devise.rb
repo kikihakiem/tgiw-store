@@ -1,1 +1,0 @@
-Devise.secret_key = ENV['TGIW_DEVISE_SECRET_KEY']
