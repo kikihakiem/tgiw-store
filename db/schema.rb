@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013034358) do
+ActiveRecord::Schema.define(version: 20161013040042) do
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
@@ -105,6 +105,15 @@ ActiveRecord::Schema.define(version: 20161013034358) do
   add_index "spree_calculators", ["deleted_at"], name: "index_spree_calculators_on_deleted_at", using: :btree
   add_index "spree_calculators", ["id", "type"], name: "index_spree_calculators_on_id_and_type", using: :btree
 
+  create_table "spree_contents", force: :cascade do |t|
+    t.string   "key",        limit: 255
+    t.string   "value",      limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "spree_contents", ["key"], name: "index_spree_contents_on_key", using: :btree
+
   create_table "spree_countries", force: :cascade do |t|
     t.string   "iso_name",        limit: 255
     t.string   "iso",             limit: 255
@@ -140,6 +149,23 @@ ActiveRecord::Schema.define(version: 20161013034358) do
     t.integer  "stock_location_id", limit: 4
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+  end
+
+  create_table "spree_feed_items", force: :cascade do |t|
+    t.integer  "category",                limit: 4
+    t.string   "href",                    limit: 255
+    t.string   "superheading",            limit: 255
+    t.string   "title",                   limit: 255
+    t.integer  "position",                limit: 4,   default: 0, null: false
+    t.integer  "product_id",              limit: 4
+    t.integer  "post_id",                 limit: 4
+    t.integer  "lookbook_id",             limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 4
+    t.datetime "attachment_updated_at"
   end
 
   create_table "spree_gateways", force: :cascade do |t|
@@ -206,6 +232,19 @@ ActiveRecord::Schema.define(version: 20161013034358) do
   end
 
   add_index "spree_log_entries", ["source_id", "source_type"], name: "index_spree_log_entries_on_source_id_and_source_type", using: :btree
+
+  create_table "spree_lookbooks", force: :cascade do |t|
+    t.string   "name",         limit: 255
+    t.string   "slug",         limit: 255
+    t.text     "content",      limit: 65535
+    t.datetime "available_on"
+    t.boolean  "published",                  default: true
+    t.integer  "aspect_ratio", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "spree_lookbooks", ["slug"], name: "index_spree_lookbooks_on_slug", using: :btree
 
   create_table "spree_option_type_prototypes", force: :cascade do |t|
     t.integer "prototype_id",   limit: 4
@@ -353,6 +392,32 @@ ActiveRecord::Schema.define(version: 20161013034358) do
   add_index "spree_payments", ["payment_method_id"], name: "index_spree_payments_on_payment_method_id", using: :btree
   add_index "spree_payments", ["source_id", "source_type"], name: "index_spree_payments_on_source_id_and_source_type", using: :btree
 
+  create_table "spree_post_images", force: :cascade do |t|
+    t.integer  "position",                limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 4
+    t.datetime "attachment_updated_at"
+    t.integer  "post_id",                 limit: 4
+  end
+
+  add_index "spree_post_images", ["post_id"], name: "index_spree_post_images_on_post_id", using: :btree
+
+  create_table "spree_posts", force: :cascade do |t|
+    t.string   "title",        limit: 255
+    t.string   "slug",         limit: 255
+    t.date     "published_on"
+    t.string   "link_url",     limit: 255
+    t.text     "description",  limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "embed_code",   limit: 65535
+  end
+
+  add_index "spree_posts", ["slug"], name: "index_spree_posts_on_slug", using: :btree
+
   create_table "spree_preferences", force: :cascade do |t|
     t.text     "value",      limit: 65535
     t.string   "key",        limit: 255
@@ -361,6 +426,18 @@ ActiveRecord::Schema.define(version: 20161013034358) do
   end
 
   add_index "spree_preferences", ["key"], name: "index_spree_preferences_on_key", unique: true, using: :btree
+
+  create_table "spree_press_items", force: :cascade do |t|
+    t.string   "name",              limit: 255
+    t.string   "link",              limit: 255
+    t.integer  "position",          limit: 4
+    t.string   "logo_file_name",    limit: 255
+    t.string   "logo_content_type", limit: 255
+    t.integer  "logo_file_size",    limit: 4
+    t.datetime "logo_updated_at"
+  end
+
+  add_index "spree_press_items", ["position"], name: "index_spree_press_items_on_position", using: :btree
 
   create_table "spree_prices", force: :cascade do |t|
     t.integer  "variant_id", limit: 4,                            null: false
@@ -749,6 +826,32 @@ ActiveRecord::Schema.define(version: 20161013034358) do
     t.datetime "updated_at"
   end
 
+  create_table "spree_slide_images", force: :cascade do |t|
+    t.integer  "order",                   limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "slide_id",                limit: 4
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 4
+    t.datetime "attachment_updated_at"
+    t.integer  "position",                limit: 4
+  end
+
+  add_index "spree_slide_images", ["slide_id"], name: "index_spree_slide_images_on_slide_id", using: :btree
+
+  create_table "spree_slides", force: :cascade do |t|
+    t.text     "embed_code",  limit: 65535
+    t.integer  "order",       limit: 4
+    t.integer  "lookbook_id", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "layout",      limit: 4
+    t.integer  "position",    limit: 4
+  end
+
+  add_index "spree_slides", ["lookbook_id"], name: "index_spree_slides_on_lookbook_id", using: :btree
+
   create_table "spree_state_changes", force: :cascade do |t|
     t.string   "name",           limit: 255
     t.string   "previous_state", limit: 255
@@ -837,6 +940,17 @@ ActiveRecord::Schema.define(version: 20161013034358) do
   add_index "spree_stock_transfers", ["number"], name: "index_spree_stock_transfers_on_number", using: :btree
   add_index "spree_stock_transfers", ["source_location_id"], name: "index_spree_stock_transfers_on_source_location_id", using: :btree
 
+  create_table "spree_stockists", force: :cascade do |t|
+    t.integer  "region",       limit: 4
+    t.string   "name",         limit: 255
+    t.string   "address",      limit: 255
+    t.string   "phone_number", limit: 255
+    t.string   "link",         limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "position",     limit: 4
+  end
+
   create_table "spree_store_credit_categories", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
@@ -907,6 +1021,16 @@ ActiveRecord::Schema.define(version: 20161013034358) do
   add_index "spree_stores", ["code"], name: "index_spree_stores_on_code", using: :btree
   add_index "spree_stores", ["default"], name: "index_spree_stores_on_default", using: :btree
   add_index "spree_stores", ["url"], name: "index_spree_stores_on_url", using: :btree
+
+  create_table "spree_surf_club_images", force: :cascade do |t|
+    t.integer  "position",                limit: 4,   default: -1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 4
+    t.datetime "attachment_updated_at"
+  end
 
   create_table "spree_tax_categories", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -1051,6 +1175,18 @@ ActiveRecord::Schema.define(version: 20161013034358) do
   add_index "spree_variants", ["sku"], name: "index_spree_variants_on_sku", using: :btree
   add_index "spree_variants", ["tax_category_id"], name: "index_spree_variants_on_tax_category_id", using: :btree
   add_index "spree_variants", ["track_inventory"], name: "index_spree_variants_on_track_inventory", using: :btree
+
+  create_table "spree_works", force: :cascade do |t|
+    t.integer  "position",                limit: 4
+    t.text     "caption",                 limit: 65535
+    t.boolean  "published"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "attachment_file_name",    limit: 255
+    t.string   "attachment_content_type", limit: 255
+    t.integer  "attachment_file_size",    limit: 4
+    t.datetime "attachment_updated_at"
+  end
 
   create_table "spree_zone_members", force: :cascade do |t|
     t.integer  "zoneable_id",   limit: 4

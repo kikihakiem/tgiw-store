@@ -12,4 +12,6 @@
 !/log/.keep
 /tmp
 scripts
+secrets
+ansible/templates
 public/spree/products
