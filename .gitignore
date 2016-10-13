@@ -11,3 +11,5 @@
 /log/*
 !/log/.keep
 /tmp
+scripts
+public/spree/products
